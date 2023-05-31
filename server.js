@@ -4,21 +4,17 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-var admin = require("firebase-admin");
-
-var serviceAccount = require("./key.json");
+const admin = require("firebase-admin");
+const serviceAccount = require("./key.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://miou-api-default-rtdb.firebaseio.com"
 });
 
-
-
-
+const db = admin.firestore();
 
 app.get('/', (req, res) => {
-  const db = admin.firestore();
   const usersCollection = db.collection('pet');
 
   usersCollection.get()
@@ -35,13 +31,10 @@ app.get('/', (req, res) => {
     });
 });
 
-
-// POST API endpoint
 app.post('/upload/:userId', (req, res) => {
   const userId = req.params.userId;
   const data = req.body;
 
-  // Store the data in Firestore
   const userRef = db.collection('pet').doc(userId);
 
   userRef.set(data)
@@ -57,8 +50,7 @@ app.post('/upload/:userId', (req, res) => {
 // Add more routes as needed
 
 const port = 3000;
-const server = app.listen(port, () => {
-  const { port } = server.address();
+app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
@@ -66,4 +58,3 @@ const server = app.listen(port, () => {
 app.use((req, res) => {
   res.status(404).send('Route not found');
 });
-
