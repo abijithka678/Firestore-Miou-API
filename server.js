@@ -40,6 +40,7 @@ app.get('/', (req, res) => {
 
 // POST API endpoint
 app.post('/upload/:userId', (req, res) => {
+  const db = admin.firestore();
   const userId = req.params.userId;
   const data = req.body;
 
