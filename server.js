@@ -17,7 +17,7 @@ admin.initializeApp({
 
 
 
-app.get('/api/users', (req, res) => {
+app.get('/', (req, res) => {
   const db = admin.firestore();
   const usersCollection = db.collection('pet');
 
@@ -36,7 +36,7 @@ app.get('/api/users', (req, res) => {
 });
 
 
-app.post('/api/users', (req, res) => {
+app.post('/', (req, res) => {
   // Handle POST request for creating a new user
   // Access the data sent in the request body using req.body
 });
@@ -47,3 +47,9 @@ const port = 3000;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+// Default route to handle unmatched routes
+app.use((req, res) => {
+  res.status(404).send('Route not found');
+});
+
