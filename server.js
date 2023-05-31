@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
+
 const app = express();
 app.use(bodyParser.json());
 
 var admin = require("firebase-admin");
+app.use(express.json());
 
 var serviceAccount = require("./key.json");
 
