@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 
 
 // POST API endpoint
-app.post('/upload:userId', (req, res) => {
+app.post('/upload/:userId', (req, res) => {
   const userId = req.params.userId;
   const data = req.body;
 
