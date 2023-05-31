@@ -35,11 +35,24 @@ app.get('/', (req, res) => {
     });
 });
 
+app.post('/:userId', (req, res) => {
+  const userId = req.params.userId;
+  const data = req.body;
 
-app.post('/', (req, res) => {
-  // Handle POST request for creating a new user
-  // Access the data sent in the request body using req.body
+  // Use the Firebase Admin SDK to save data to Firebase
+  const db = admin.firestore();
+  const usersCollection = db.collection('users');
+
+  usersCollection.doc(userId).set(data)
+    .then(() => {
+      res.send('Data saved successfully');
+    })
+    .catch((error) => {
+      console.error('Error saving data:', error);
+      res.status(500).send('Error saving data');
+    });
 });
+
 
 // Add more routes as needed
 
