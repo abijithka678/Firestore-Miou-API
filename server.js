@@ -35,29 +35,30 @@ app.get('/', (req, res) => {
     });
 });
 
+
+// POST API endpoint
 app.post('/:userId', (req, res) => {
   const userId = req.params.userId;
   const data = req.body;
 
-  // Use the Firebase Admin SDK to save data to Firebase
-  const db = admin.firestore();
-  const usersCollection = db.collection('users');
+  // Store the data in Firestore
+  const userRef = db.collection('pet').doc(userId);
 
-  usersCollection.doc(userId).set(data)
+  userRef.set(data)
     .then(() => {
-      res.send('Data saved successfully');
+      res.send('Data stored successfully');
     })
     .catch((error) => {
-      console.error('Error saving data:', error);
-      res.status(500).send('Error saving data');
+      console.error('Error storing data:', error);
+      res.status(500).send('Error storing data');
     });
 });
-
 
 // Add more routes as needed
 
 const port = 3000;
-app.listen(port, () => {
+const server = app.listen(port, () => {
+  const { port } = server.address();
   console.log(`Server listening on port ${port}`);
 });
 
